@@ -1,0 +1,18 @@
+@font-face { font-family: Kanit; src: url('../assets/fonts/Kanit-Regular.ttf') format('truetype'); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: Kanit; src: url('../assets/fonts/Kanit-SemiBold.ttf') format('truetype'); font-style: normal; font-weight: 600 900; font-display: swap; }
+
+:root {
+  --ink: #17121e;
+  --night: #15111e;
+  --night-soft: #211b2b;
+  --cream: #f5f2ec;
+  --white: #fffefa;
+  --muted: #aaa2b2;
+  --yellow: #ffda3b;
+  --lilac: #a982ec;
+  --line-dark: rgba(255,255,255,.17);
+  --line-light: rgba(23,18,30,.16);
+  --font-display: Kanit, 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+  --font-body: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+  --shell: min(1360px, calc(100% - 112px));
+}

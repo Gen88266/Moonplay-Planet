@@ -1,0 +1,20 @@
+.footer { background: #110e17; border-top: 1px solid var(--line-dark); }
+.footer__top { display: grid; grid-template-columns: 1.2fr 1.6fr .8fr; gap: 55px; padding: 74px 0 65px; }
+.footer__brand p { font: 600 19px var(--font-display); margin: 26px 0 7px; }
+.footer__brand > span { max-width: 300px; display: block; color: var(--muted); font-size: 13px; line-height: 1.8; }
+.footer__links { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.footer h3 { margin: 0 0 20px; font-size: 14px; }
+.footer__links a, .footer__links button { display: block; width: fit-content; padding: 0; margin: 0 0 12px; color: #a9a1b0; background: none; border: 0; font-size: 12px; text-align: left; }
+.footer__links a:hover, .footer__links button:hover { color: var(--yellow); }
+.footer__newsletter p { color: var(--muted); font-size: 13px; line-height: 1.7; }
+.footer__newsletter .button { min-height: 44px; padding-inline: 18px; gap: 17px; margin-top: 12px; font-size: 12px; }
+.footer__bottom { min-height: 65px; display: flex; justify-content: space-between; align-items: center; gap: 15px; border-top: 1px solid var(--line-dark); color: #7c7484; font: 400 10px var(--font-display); letter-spacing: .08em; }
+.overlay { position: fixed; inset: 0; z-index: 100; display: flex; justify-content: flex-end; background: #08060baf; }
+.overlay__panel { position: relative; width: min(420px,100%); min-height: 100%; padding: 85px 35px; color: var(--ink); background: var(--cream); box-shadow: -20px 0 50px #0005; }
+.overlay__close { position: absolute; right: 27px; top: 23px; width: 38px; height: 38px; border: 1px solid #bdb3c5; border-radius: 50%; background: none; font-size: 25px; line-height: 1; }
+.overlay__icon { color: #8c67ca; font-size: 45px; }
+.overlay__panel h2 { margin: 22px 0 18px; font-size: 36px; }
+.overlay__panel p { line-height: 1.8; }
+.overlay__panel small { display: block; margin-top: 22px; color: #706776; line-height: 1.7; }
+@media (max-width: 1000px) { .footer__top { grid-template-columns: 1fr 1.5fr; } .footer__newsletter { grid-column: 1 / -1; } }
+@media (max-width: 760px) { .footer__top { display: block; padding: 60px 0 40px; } .footer__brand { margin-bottom: 38px; } .footer__links { gap: 12px; } .footer__newsletter { margin-top: 35px; } .footer__bottom { display: block; padding: 20px 0; line-height: 2; } .footer__bottom span { display: block; } }

@@ -1,0 +1,78 @@
+.account-page { min-height: calc(100vh - 112px); padding: 54px 0 110px; background: radial-gradient(circle at 15% 65%, #2d2240 0, var(--night) 52%); }
+.account-page:not(.account-page--legal) { background: #13072f url('/imgs/account-background-desktop.webp') center top / cover no-repeat; }
+.account-page:not(.account-page--legal) .account-page__intro h1 { color: var(--yellow); }
+.account-page:not(.account-page--legal) .account-page__intro > p:not(.eyebrow) { color: var(--white); }
+.account-page:not(.account-page--legal) .account-page__planet { display: none; }
+.account-page__mobile-art { display: none; }
+.account-page__back { display: inline-flex; align-items: center; gap: 9px; color: #c6bdcf; font-size: 13px; }
+.account-page__back:hover { color: var(--yellow); }
+.account-page__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(370px, 480px); align-items: start; gap: clamp(48px, 8vw, 150px); margin-top: 100px; }
+.account-page__intro { position: relative; min-height: 490px; margin-top: -54px; }
+.account-page__intro .eyebrow { display: flex; align-items: center; gap: 10px; color: var(--white); font-size: 15px; letter-spacing: 0; text-transform: none; }
+.account-page__intro .eyebrow::before { content: ''; width: 18px; height: 14px; flex: none; background: var(--yellow); }
+.account-page__intro h1 { max-width: 700px; margin: 0; font: 600 clamp(34px, 3.8vw, 64px)/1.08 var(--font-display); letter-spacing: -.04em; }
+@media (min-width: 901px) { html:lang(zh-Hant) .account-page__intro h1 { white-space: nowrap; } }
+.account-page__intro > p:not(.eyebrow) { max-width: 410px; margin: 29px 0 0; color: #bdb5c6; font-size: 17px; line-height: 1.8; }
+.account-page__planet { position: absolute; right: 20px; bottom: -48px; width: 240px; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 33% 28%, #fff9e9, #d7b7e5 38%, #875ba5 72%, #3d2655); box-shadow: inset -22px -20px 36px #2411307a, 0 0 55px #aa77ce55; pointer-events: none; }
+.account-page__planet::before { content: ''; position: absolute; inset: 30% -40%; border: 2px solid #dcc3eba6; border-radius: 50%; transform: rotate(-25deg); }
+.account-page__planet::after { content: ''; position: absolute; top: 22%; left: 24%; width: 34px; height: 20px; border-radius: 50%; background: #fff7e4a6; box-shadow: 61px 62px 0 6px #54376850, 34px 120px 0 1px #54376845; transform: rotate(-25deg); }
+.account-panel { padding: 42px; border: 1px solid #e6e0e8; border-radius: 18px; color: var(--ink); background: var(--white); box-shadow: 0 30px 70px #08050e50; }
+.account-panel__kicker { color: #73529e; font: 600 11px/1.2 var(--font-display); letter-spacing: .18em; }
+.account-panel h2 { margin: 17px 0 0; font-size: clamp(29px, 3vw, 39px); line-height: 1.2; }
+.account-panel__description { margin: 12px 0 0; color: #716a79; font-size: 14px; line-height: 1.7; }
+.account-form { display: flex; flex-direction: column; margin-top: 29px; }
+.account-form > label { margin: 0 0 9px; font-size: 13px; font-weight: 700; }
+.account-form input:not([type='checkbox']) { width: 100%; min-width: 0; height: 50px; margin-bottom: 22px; padding: 0 15px; border: 1px solid #dcd5e1; border-radius: 9px; outline: none; color: var(--ink); background: #fcfbfc; font-size: 14px; }
+.account-form input:not([type='checkbox']):focus { border-color: #9f75d9; box-shadow: 0 0 0 3px #a982ec30; }
+.account-form input::placeholder { color: #aaa1af; }
+.account-form__inline { display: flex; gap: 9px; }
+.account-form__inline input { flex: 1; }
+.account-form__inline button { align-self: start; min-width: 110px; height: 50px; padding: 0 12px; border: 1px solid var(--ink); border-radius: 9px; color: var(--ink); background: transparent; font-size: 13px; font-weight: 700; }
+.account-form__inline button:hover:not(:disabled) { background: #f4f0f8; }
+.account-form__inline button:disabled { cursor: not-allowed; opacity: .45; }
+.account-form__hint { margin: -11px 0 19px; color: #6f4a95; font-size: 13px; }
+.account-form__hint strong { font-variant-numeric: tabular-nums; letter-spacing: .1em; }
+.account-form__consent { margin: 18px 0 0; padding: 14px 15px; border-radius: 7px; color: #5d586a; background: #f0eef8; font-size: 12px; line-height: 1.6; }
+.account-form__consent button { padding: 0; border: 0; color: #5e3c8c; background: none; font: inherit; font-weight: 700; text-decoration: none; transition: color .2s ease; }
+.account-form__consent button:hover { color: #9870cf; }
+.account-form__consent button:active { color: #5e3c8c; }
+.account-form__submit { width: 100%; min-height: 60px; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 27px; padding: 7px 20px; border: 0; border-radius: 999px; color: var(--white); background: var(--ink); font-size: 15px; font-weight: 700; transition: transform .2s ease, background .2s ease, box-shadow .2s ease; }
+.account-form__submit:hover { background: #30253e; box-shadow: 0 10px 24px #17121e30; transform: translateY(-2px); }
+.account-form__submit:active { transform: translateY(0); }
+.account-form__submit span { display: grid; place-items: center; flex: none; color: var(--yellow); }
+.account-form__submit svg { width: 18px; height: 18px; }
+.account-page--legal .account-page__legal { max-width: 780px; margin: 100px auto 0; padding: 55px; border: 1px solid var(--line-dark); border-radius: 18px; background: var(--night-soft); }
+.account-page__legal h1 { margin: 0 0 28px; font: 600 clamp(38px, 5vw, 60px)/1.2 var(--font-display); }
+.account-page__legal > p:not(.eyebrow) { color: var(--white); font-size: 18px; line-height: 1.8; }
+@media (max-width: 900px) { .account-page__grid { grid-template-columns: 1fr; gap: 35px; margin-top: 40px; } .account-page__intro { min-height: 0; margin-top: 0; padding-top: 5px; padding-bottom: 80px; } .account-page__planet { display: none; } .account-panel { max-width: 540px; } }
+@media (max-width: 900px) { .account-page:not(.account-page--legal) { background-image: url('/imgs/account-background-mobile.webp'); background-size: 100% auto; } }
+@media (max-width: 560px) { .account-page { padding: 28px 0 65px; } .account-page__intro { padding-bottom: 32px; } .account-page__intro h1 { font-size: clamp(39px, 10vw, 55px); } .account-page__intro > p:not(.eyebrow) { margin-top: 17px; font-size: 14px; } .account-panel { padding: 27px 21px; } .account-page--legal .account-page__legal { margin-top: 45px; padding: 30px 22px; } }
+@media (max-width: 560px) {
+  .account-page:not(.account-page--legal) { min-height: calc(100vh - 77px); padding: 20px 0 0; background: #030303; }
+  .account-page:not(.account-page--legal) .account-page__grid { display: block; margin-top: 0; }
+  .account-page:not(.account-page--legal) .account-page__intro { display: none; }
+  .account-page:not(.account-page--legal) .account-panel { position: relative; z-index: 1; max-width: none; padding: 32px 28px; }
+  .account-page__mobile-art { display: block; width: 100%; max-width: none; height: auto; margin-top: -42px; }
+}
+@media (prefers-reduced-motion: reduce) { .account-form__submit { transition: none; } }
+
+@keyframes legal-fade { from { opacity: 0; } }
+@keyframes legal-pop { from { opacity: 0; transform: translateY(16px) scale(.96); } }
+.legal-dialog { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 20px; background: #08060baf; animation: legal-fade .25s ease; }
+.legal-dialog__panel { position: relative; width: 90%; max-width: 600px; max-height: min(86vh, 780px); display: flex; flex-direction: column; padding: 40px 36px 28px; border-radius: 18px; color: var(--ink); background: var(--cream); box-shadow: 0 30px 70px #0007; animation: legal-pop .35s cubic-bezier(.2, .7, .2, 1); }
+.legal-dialog__panel h2 { flex: none; margin: 0 56px 20px 0; font-size: clamp(24px, 3.4vw, 32px); line-height: 1.3; }
+.legal-dialog__scroll { flex: 1; min-height: 0; margin: 0 -12px 22px 0; padding-right: 12px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+.legal-dialog__scroll:focus-visible { outline-offset: 2px; }
+.legal-dialog .button { flex: none; width: 100%; min-height: 60px; font-size: 17px; }
+.legal-content { color: inherit; font-size: 15px; line-height: 1.85; }
+.legal-content p { margin: 0 0 12px; color: inherit; font-size: inherit; }
+.legal-content section { margin-top: 24px; }
+.legal-content h3 { margin: 0 0 8px; font-size: 17px; line-height: 1.5; }
+.legal-content ul { margin: 0 0 12px; padding-left: 22px; }
+.legal-content li { margin-bottom: 4px; }
+.legal-dialog .overlay__close { transition: background .2s ease, transform .2s ease; }
+.legal-dialog .overlay__close:hover { background: #ebe5f2; }
+.legal-dialog .overlay__close:active { transform: scale(.92); }
+.legal-dialog .button:active { transform: translateY(0) scale(.97); }
+@media (max-width: 560px) { .legal-dialog__panel { padding: 32px 22px 22px; } }
+@media (prefers-reduced-motion: reduce) { .legal-dialog, .legal-dialog__panel { animation: none; } }
