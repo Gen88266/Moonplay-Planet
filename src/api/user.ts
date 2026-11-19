@@ -1,5 +1,6 @@
 import { authHeaders } from '@/api/auth'
 import { postJson } from '@/api/http'
+import { getMockInviteCount, getMockInvitees } from '@/api/mockInvites'
 
 export interface UserData {
   inviteCode: string
@@ -40,6 +41,8 @@ function readInvitee(value: unknown, index: number): DirectInvitee {
 }
 
 export async function getDirectRecommendationUserList(email: string, start: number, limit: number) {
+  const mockCount = getMockInviteCount()
+  if (mockCount) return getMockInvitees(mockCount, start, limit)
   const result = asRecord(await postJson('/user/user/getDirectRecommendationUserList', { start, limit }, authHeaders(email)))
   const data = result?.data
   const box = asRecord(data)

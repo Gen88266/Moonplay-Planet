@@ -20,7 +20,7 @@ export const tw = {
     deposit: '充值', withdraw: '提現', closeDialog: '關閉', cancel: '取消',
     depositLead: '充值網絡與專屬地址開通後將顯示在這裡。', depositNetwork: '充值網絡', networkPending: '待開通', depositAddress: '平台充值地址', addressPending: '地址開通後顯示', copyAddress: '複製地址', depositNotice: '請勿向未公布或未經核實的地址轉帳。',
     withdrawAmount: '提現金額', withdrawNetwork: '提現網絡', withdrawAddress: '提現地址', withdrawNotice: '目前無可提現餘額；提現服務開通後可提交申請。', confirmWithdraw: '確認提現',
-    inviteRecordsKicker: '邀請關係', inviteRecordsTitle: '邀請記錄', peopleUnit: '人', inviteeAddress: '帳戶郵箱地址', registeredAt: '註冊時間', activationStatus: '激活狀態', activated: '已激活', notActivated: '未激活', noInviteRecords: '目前還沒有邀請記錄。分享你的專屬邀請連結，邀請好友加入。', previousPage: '上一頁', nextPage: '下一頁',
+    inviteRecordsKicker: '邀請關係', inviteRecordsTitle: '邀請記錄', peopleUnit: '人', inviteeAddress: '帳戶郵箱地址', registeredAt: '註冊時間', noInviteRecords: '目前還沒有邀請記錄。分享你的專屬邀請連結，邀請好友加入。', previousPage: '上一頁', nextPage: '下一頁',
     partnerKicker: '合夥人權益', partnerTitle: '合夥人套餐', partnerLead: '購買合夥人套餐可獲得激活碼與預約積分。', activationCodes: '激活碼', bookingPoints: '預約積分', assetHelp: '說明', activationHelp: '激活碼可用於激活個人櫥窗。櫥窗激活後，可將已購買的商品放入櫥窗寄售。相關功能將於後續開放。', pointsHelp: '持有預約積分後，才可預約商品並進行購買。預約購買功能將於後續開放。', pointsRate: '1 積分 = 1 美分', partnerPackage: '合夥人套餐', partnerPayment: '僅支持 USDT 支付', packagePending: '套餐內容與價格公布後開放購買。', buyPackage: '購買套餐', sendAsset: '轉送', activationTransferTitle: '激活碼轉讓', pointsTransferTitle: '積分轉讓', transferLead: '激活碼與預約積分可轉給其他帳戶，不限制邀請綁定關係。', recipientEmail: '收款帳戶郵箱', transferQuantity: '轉帳數量', confirmTransfer: '確認轉帳',
   },
   soon: '此服務將分階段開放，敬請留意官方更新。',

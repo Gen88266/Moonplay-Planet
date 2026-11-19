@@ -50,12 +50,10 @@
 .person-section--invite-records .person-section__heading > strong { padding: 8px 14px; border-radius: 999px; background: #f3eff8; font-size: 14px; }
 .person-section--invite-records .person-section__empty { padding: 36px 24px; text-align: center; }
 .person-records { margin-top: 24px; overflow-x: auto; }
-.person-records__head, .person-records__row { display: grid; grid-template-columns: minmax(220px, 1.5fr) minmax(130px, 1fr) minmax(100px, .6fr); gap: 18px; align-items: center; min-width: 530px; padding: 15px 17px; }
+.person-records__head, .person-records__row { display: grid; grid-template-columns: minmax(220px, 1.5fr) minmax(130px, 1fr); gap: 18px; align-items: center; min-width: 400px; padding: 15px 17px; }
 .person-records__head { border-radius: 9px; color: #776d80; background: #f6f4f8; font-size: 12px; font-weight: 700; }
 .person-records__row { border-bottom: 1px solid #eeeaf1; font-size: 13px; }
 .person-records__row strong { overflow-wrap: anywhere; }
-.person-records__row > span:last-child { width: fit-content; padding: 5px 9px; border-radius: 999px; color: #7e6674; background: #f4edf0; }
-.person-records__row > span.is-active { color: #4a7850; background: #e9f4e8; }
 .person-records__pagination { display: flex; align-items: center; justify-content: flex-end; gap: 14px; margin-top: 20px; color: #776d80; font-size: 13px; }
 .person-records__pagination button { min-height: 36px; padding: 0 13px; border: 1px solid #ded7e5; border-radius: 8px; color: #634291; background: var(--white); font-size: 12px; font-weight: 700; }
 .person-records__pagination button:hover:not(:disabled) { border-color: #9c7bc4; background: #f8f5fb; }
@@ -128,5 +126,11 @@
   .person-card__invite-grid { grid-template-columns: 1fr; }
   .person-card__invite-item + .person-card__invite-item { border-left: 0; border-top: 1px solid #e7e2ea; }
   .person-section { padding: 24px 20px; }
+  .person-records { display: grid; gap: 12px; overflow: visible; }
+  .person-records__head { display: none; }
+  .person-records__row { grid-template-columns: 1fr; gap: 6px; min-width: 0; padding: 16px 18px; border: 1px solid #ece9df; border-radius: 14px; background: linear-gradient(135deg, #fff 55%, #f8faee); box-shadow: 0 4px 14px rgba(62, 44, 94, .05); }
+  .person-records__row strong { font-size: 15px; }
+  .person-records__row > span { color: #9a93a3; font-size: 13px; }
+  .person-records__pagination { justify-content: space-between; }
 }
 @media (max-width: 430px) { .person-card__identity { flex-wrap: wrap; } .person-card__signout { margin-left: 0; } .person-card__balance-actions { width: 100%; } .person-card__balance-actions button { flex: 1; } .person-assets { grid-template-columns: 1fr; } .person-partner__purchase { align-items: stretch; flex-direction: column; } .balance-dialog { padding: 20px; } }

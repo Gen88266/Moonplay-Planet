@@ -51,8 +51,8 @@ export function InviteRecords({ email, onSessionExpired }: InviteRecordsProps) {
       {hasError && !users.length ? <p className="person-section__empty" role="alert">{copy.requestFailed}</p>
         : users.length ? <>
           <div className="person-records">
-            <div className="person-records__head"><span>{copy.inviteeAddress}</span><span>{copy.registeredAt}</span><span>{copy.activationStatus}</span></div>
-            {users.map((user) => <div className="person-records__row" key={user.id}><strong>{user.email || '—'}</strong><span>{formatDate(user.createTime)}</span><span className={user.isValid ? 'is-active' : ''}>{user.isValid ? copy.activated : copy.notActivated}</span></div>)}
+            <div className="person-records__head"><span>{copy.inviteeAddress}</span><span>{copy.registeredAt}</span></div>
+            {users.map((user) => <div className="person-records__row" key={user.id}><strong>{user.email || '—'}</strong><span>{formatDate(user.createTime)}</span></div>)}
           </div>
           {pageCount > 1 && <nav className="person-records__pagination" aria-label={copy.inviteRecordsTitle}>
             <button type="button" disabled={page === 1 || isLoading} onClick={() => setPage(page - 1)}>{copy.previousPage}</button>
