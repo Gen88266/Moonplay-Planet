@@ -31,6 +31,14 @@
 .account-form__inline button:hover:not(:disabled) { background: #f4f0f8; }
 .account-form__inline button:disabled { cursor: not-allowed; opacity: .45; }
 .account-form__hint { margin: -11px 0 19px; color: #6f4a95; font-size: 13px; }
+.account-form__field { position: relative; }
+.account-form__field.is-checking input { padding-right: 96px; }
+.account-form__status { position: absolute; top: 25px; right: 15px; transform: translateY(-50%); color: #8d8396; font-size: 12px; pointer-events: none; animation: account-status-pulse 1.2s ease-in-out infinite; }
+@keyframes account-status-pulse { 50% { opacity: .45; } }
+@media (prefers-reduced-motion: reduce) { .account-form__status { animation: none; } }
+.account-form__hint--error { color: #c0392b; }
+.account-form input[aria-invalid='true'] { border-color: #d9695c; }
+.account-form input[aria-invalid='true']:focus { border-color: #d9695c; box-shadow: 0 0 0 3px #d9695c26; }
 .account-form__hint strong { font-variant-numeric: tabular-nums; letter-spacing: .1em; }
 .account-form__consent { margin: 18px 0 0; padding: 14px 15px; border-radius: 7px; color: #5d586a; background: #f0eef8; font-size: 12px; line-height: 1.6; }
 .account-form__consent button { padding: 0; border: 0; color: #5e3c8c; background: none; font: inherit; font-weight: 700; text-decoration: none; transition: color .2s ease; }

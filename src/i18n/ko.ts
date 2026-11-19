@@ -7,7 +7,7 @@ export const ko: Copy = {
     spaceKicker: '문플레이 플래닛 / 마이페이지', kicker: '개인 로그인', loginTitle: '다시 오신 것을 환영합니다', loginLead: '이메일 주소를 입력하고 인증번호로 로그인하세요.',
     registerTitle: '문플레이 플래닛에 가입하세요', registerLead: '해당 이메일 주소로 등록된 계정이 없습니다. 초대 코드 또는 초대 링크를 선택적으로 입력하여 회원가입을 완료할 수 있습니다.',
     email: '이메일', verificationCode: '인증번호', codePlaceholder: '6자리 숫자를 입력하세요',
-    sendCode: '인증번호 받기', sendingCode: '전송 중', codeSent: '인증 코드를 보냈습니다. 메일을 확인해 주세요.', requestFailed: '요청에 실패했습니다. 잠시 후 다시 시도해 주세요.', codeHint: '인증번호',
+    sendCode: '인증번호 받기', sendingCode: '전송 중', codeSent: '인증 코드를 보냈습니다. 메일을 확인해 주세요.', requestFailed: '요청에 실패했습니다. 잠시 후 다시 시도해 주세요.', checkingAccount: '확인 중', emailInvalid: '이메일 형식이 올바르지 않습니다. you@example.com 형식으로 입력해 주세요.', codeHint: '인증번호',
     inviteOptional: '초대 코드 또는 초대 링크(선택 사항)', invitePlaceholder: '초대 코드 또는 초대 링크를 입력하세요', inviteInvalid: '올바른 초대 코드 또는 링크를 입력하세요.',
     legalPrefix: '로그인하면 ', loginLegalPrefix: '로그인하면 ', legalLink: '「글로벌 이용자 법률·규정 준수 및 위험 고지」', legalSuffix: '에 동의한 것으로 간주됩니다.', loginLegalSuffix: '를 읽고 이해한 것으로 간주됩니다.',
     legalKicker: '문플레이 플래닛 / 법률 안내',

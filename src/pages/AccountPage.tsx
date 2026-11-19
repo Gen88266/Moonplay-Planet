@@ -27,6 +27,7 @@ export function AccountPage({ legal, onSignedIn }: AccountPageProps) {
   const accountHref = inviteQuery ? `/?invite_code=${encodeURIComponent(inviteQuery)}#account` : '/#account'
   const { email, code, isEmailValid, isRegistered, isChecking, isSending, resendSeconds, codeSent, errorMessage } = access
   const showRegister = isRegistered === false
+  const emailHint = access.isEmailTouched && !isEmailValid ? copy.emailInvalid : ''
 
   async function completeSignIn(request: () => Promise<void>, invite: string) {
     setIsSubmitting(true)
@@ -90,7 +91,11 @@ export function AccountPage({ legal, onSignedIn }: AccountPageProps) {
             <p className="account-panel__description">{showRegister ? copy.registerLead : copy.loginLead}</p>
             <form className="account-form" noValidate onSubmit={handleSubmit}>
               <label htmlFor="account-email">{copy.email}</label>
-              <input id="account-email" type="email" value={email} autoComplete="email" placeholder="you@example.com" onChange={(event) => access.onEmailChange(event.target.value)} />
+              <div className={`account-form__field${isChecking ? ' is-checking' : ''}`}>
+                <input id="account-email" type="email" value={email} autoComplete="email" placeholder="you@example.com" aria-invalid={Boolean(emailHint)} aria-describedby={emailHint ? 'account-email-error' : undefined} onChange={(event) => access.onEmailChange(event.target.value)} onBlur={() => email.trim() && access.touchEmail()} />
+                {isChecking && <span className="account-form__status" role="status">{copy.checkingAccount}</span>}
+              </div>
+              {emailHint && <p className="account-form__hint account-form__hint--error" id="account-email-error" role="alert">{emailHint}</p>}
               <label htmlFor="account-code">{copy.verificationCode}</label>
               <div className="account-form__inline"><input id="account-code" inputMode="numeric" pattern="[0-9]{6}" maxLength={6} value={code} autoComplete="one-time-code" placeholder={copy.codePlaceholder} onChange={(event) => access.setCode(event.target.value.replace(/\D/g, '').slice(0, 6))} /><button type="button" disabled={!isEmailValid || isRegistered === null || isChecking || isSending || resendSeconds > 0} onClick={() => void access.onSendCode()}>{isSending ? copy.sendingCode : resendSeconds > 0 ? `${resendSeconds}s` : copy.sendCode}</button></div>
               {errorMessage && <p className="account-form__hint" role="alert">{errorMessage}</p>}

@@ -7,7 +7,7 @@ export const en: Copy = {
     spaceKicker: 'Moonplay Planet / Personal Space', kicker: 'Personal Login', loginTitle: 'Welcome Back', loginLead: 'Enter your email address and log in using a verification code.',
     registerTitle: 'Join Moonplay Planet', registerLead: 'No account is associated with this email address. You may optionally enter a referral code or referral link to complete registration.',
     email: 'Email', verificationCode: 'Verification Code', codePlaceholder: 'Enter the 6-digit code',
-    sendCode: 'Get Verification Code', sendingCode: 'Sending', codeSent: 'Verification code sent. Check your email.', requestFailed: 'Request failed. Please try again.', codeHint: 'Verification Code',
+    sendCode: 'Get Verification Code', sendingCode: 'Sending', codeSent: 'Verification code sent. Check your email.', requestFailed: 'Request failed. Please try again.', checkingAccount: 'Checking', emailInvalid: 'Invalid email format. Enter a valid email, e.g. you@example.com.', codeHint: 'Verification Code',
     inviteOptional: 'Referral Code or Link (Optional)', invitePlaceholder: 'Enter a referral code or referral link', inviteInvalid: 'Enter a valid invitation code or link.',
     legalPrefix: 'By logging in, you agree to the ', loginLegalPrefix: 'By logging in, you acknowledge that you have read and understood the ', legalLink: 'Global User Legal, Compliance, and Risk Disclosure', legalSuffix: '.', loginLegalSuffix: '.',
     legalKicker: 'MOONPLAY PLANET / LEGAL',

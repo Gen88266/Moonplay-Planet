@@ -7,7 +7,7 @@ export const tw = {
     spaceKicker: '月動星球 / 個人空間', kicker: '個人登入', loginTitle: '歡迎回來', loginLead: '輸入電子郵件，以驗證碼登入。',
     registerTitle: '加入月動星球', registerLead: '此郵箱尚未建立帳戶，可選填邀請碼或邀請地址完成註冊。',
     email: '電子郵件', verificationCode: '驗證碼', codePlaceholder: '輸入 6 位數字',
-    sendCode: '取得驗證碼', sendingCode: '寄送中', codeSent: '驗證碼已寄出，請查收郵件。', requestFailed: '請求失敗，請稍後再試。', codeHint: '驗證碼',
+    sendCode: '取得驗證碼', sendingCode: '寄送中', codeSent: '驗證碼已寄出，請查收郵件。', requestFailed: '請求失敗，請稍後再試。', checkingAccount: '查詢中', emailInvalid: '郵箱格式不正確，請輸入有效的電子郵箱，例如 you@example.com。', codeHint: '驗證碼',
     inviteOptional: '邀請碼或地址（選填）', invitePlaceholder: '輸入邀請碼或邀請連結', inviteInvalid: '請輸入有效的邀請碼或邀請連結。',
     legalPrefix: '登入即表示同意', loginLegalPrefix: '登入即表示您已閱讀並了解', legalLink: '《全球用戶法律、合規與風險聲明》', legalSuffix: '。', loginLegalSuffix: '。',
     legalKicker: '月動星球 / 法律文件',

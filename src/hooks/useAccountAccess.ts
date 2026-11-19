@@ -18,6 +18,7 @@ export function useAccountAccess(locale: Locale, requestFailed: string) {
   const [codeSent, setCodeSent] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [resendSeconds, setResendSeconds] = useState(0)
+  const [isEmailTouched, setIsEmailTouched] = useState(false)
   const requestId = useRef(0)
   const normalizedEmail = email.trim().toLowerCase()
   const isEmailValid = emailPattern.test(normalizedEmail)
@@ -93,6 +94,8 @@ export function useAccountAccess(locale: Locale, requestFailed: string) {
     setCode,
     normalizedEmail,
     isEmailValid,
+    isEmailTouched,
+    touchEmail: () => setIsEmailTouched(true),
     isRegistered,
     isChecking,
     isSending,
