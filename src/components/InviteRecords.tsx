@@ -3,6 +3,7 @@ import { isSessionExpired } from '@/api/auth'
 import { getDirectRecommendationUserList, type DirectInvitee } from '@/api/user'
 import { useAppSelector } from '@/app/hooks'
 import { messages } from '@/i18n/messages'
+import { formatRecordTime } from '@/utils/formatRecordTime'
 
 interface InviteRecordsProps {
   email: string
@@ -42,8 +43,7 @@ export function InviteRecords({ email, onSessionExpired }: InviteRecordsProps) {
   }, [email, page])
 
   const pageCount = Math.max(Math.ceil(total / pageSize), 1)
-  const dateFormat = new Intl.DateTimeFormat({ tw: 'zh-TW', en: 'en-US', ko: 'ko-KR' }[locale], { year: 'numeric', month: '2-digit', day: '2-digit' })
-  const formatDate = (seconds: number) => seconds > 0 ? dateFormat.format(new Date(seconds * 1000)) : '—'
+  const formatDate = (seconds: number) => seconds > 0 ? formatRecordTime(seconds, locale) : '—'
 
   return (
     <section className="person-section person-section--invite-records" aria-labelledby="invite-records-title" aria-busy={isLoading}>
@@ -52,7 +52,7 @@ export function InviteRecords({ email, onSessionExpired }: InviteRecordsProps) {
         : users.length ? <>
           <div className="person-records">
             <div className="person-records__head"><span>{copy.inviteeAddress}</span><span>{copy.registeredAt}</span></div>
-            {users.map((user) => <div className="person-records__row" key={user.id}><strong>{user.email || '—'}</strong><span>{formatDate(user.createTime)}</span></div>)}
+            {users.map((user) => <div className="person-records__row" key={user.id}><strong><i className="person-records__label">{copy.accountLabel}</i>{user.email || '—'}</strong><span><i className="person-records__label">{copy.registeredAt}</i>{formatDate(user.createTime)}</span></div>)}
           </div>
           {pageCount > 1 && <nav className="person-records__pagination" aria-label={copy.inviteRecordsTitle}>
             <button type="button" disabled={page === 1 || isLoading} onClick={() => setPage(page - 1)}>{copy.previousPage}</button>
