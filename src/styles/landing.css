@@ -82,12 +82,15 @@
 @media (max-width: 620px) {
   .landing-shell { width: min(100% - 36px, 440px); }
   .landing-hero .landing-shell { width: min(100% - 36px, 440px); }
-  .landing-hero__bg { background-image: url('/imgs/hero-mobile-space.webp'); background-position: center top; }
-  .landing-hero__video { position: absolute; bottom: 0; left: 0; height: 48.2%; object-position: 80% center; -webkit-mask-image: linear-gradient(to bottom, transparent, #000 18%); mask-image: linear-gradient(to bottom, transparent, #000 18%); }
-  .landing-hero__grid { display: flex; flex-direction: column; align-items: stretch; height: clamp(610px, 183.2vw, 687px); justify-content: flex-start; padding: 70px 0 48px; }
+  .landing-hero__bg { background: #000; } /* 手機端畫面全由底部視頻負責；舊的靜態背景圖與視頻無法對位，疊在一起會重影 */
+  .landing-hero { --hero-video-h: clamp(294px, 88.3vw, 331px); }
+  .landing-hero__video { position: absolute; bottom: 0; left: 0; height: var(--hero-video-h); object-position: 80% center; -webkit-mask-image: linear-gradient(to bottom, transparent, #000 18%); mask-image: linear-gradient(to bottom, transparent, #000 18%); }
+  .landing-hero__grid { display: flex; flex-direction: column; align-items: stretch; height: auto; min-height: clamp(610px, 183.2vw, 687px); justify-content: flex-start; padding: 18px 0 calc(var(--hero-video-h) + 12px); }
   .landing-hero__copy { padding: 14px; margin: -14px; background: linear-gradient(90deg, #08041dcf, #08041d6b 80%, transparent); }
-  .landing-hero h1 { font-size: clamp(37px, 10vw, 54px); }
-  .landing-hero__lead { font-size: 15px; }
+  .landing-hero h1 { margin-bottom: 8px; font-size: clamp(37px, 10vw, 54px); }
+  .landing-hero__brand { margin-bottom: 10px; }
+  .landing-hero__lead { margin-bottom: 10px; font-size: 15px; }
+  .landing-hero__body { margin-bottom: 14px; }
   .landing-section { padding: 66px 0; }
   .landing-heading h2 { font-size: clamp(29px, 8vw, 38px); }
   .landing-heading p { font-size: 14px; }

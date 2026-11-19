@@ -100,7 +100,7 @@ export function HomePage() {
 
     <footer className="landing-footer"><div className="landing-shell landing-footer__inner">
       <Brand />
-      <div><strong>{copy.support}</strong><nav aria-label={copy.support}>
+      <div hidden><strong>{copy.support}</strong><nav aria-label={copy.support}>
         <button type="button" onClick={() => dispatch(setNotice(common.soon))}>{copy.contact}</button>
         <a href="/#account/terms">{copy.terms}</a><a href="/#account/privacy">{copy.privacy}</a>
         <button type="button" onClick={() => dispatch(setNotice(common.soon))}>{copy.afterSales}</button>
