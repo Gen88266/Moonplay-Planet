@@ -13,6 +13,7 @@
 .person-card__signout { margin-left: auto; padding: 9px 15px; border: 1px solid #dad3df; border-radius: 999px; color: #62576e; background: transparent; font-size: 12px; white-space: nowrap; }
 .person-card__signout:hover { border-color: var(--ink); color: var(--ink); }
 .person-card__balance { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 27px 0 28px; border-top: 1px solid #ebe7ed; border-bottom: 1px solid #ebe7ed; }
+.person-card__balance[hidden] { display: none; }
 .person-card__balance > div:first-child { display: flex; flex-direction: column; gap: 11px; }
 .person-card__balance span, .person-card__invite-item > span { color: #776d80; font-size: 13px; font-weight: 600; }
 .person-card__balance strong { color: #634291; font: 700 39px/1 var(--font-display); }
@@ -87,8 +88,10 @@
 .balance-dialog { width: min(500px, calc(100% - 32px)); max-height: min(90vh, 760px); margin: auto; padding: 28px; overflow: auto; border: 0; border-radius: 18px; color: var(--ink); background: var(--white); box-shadow: 0 24px 70px #17121e33; }
 .balance-dialog::backdrop { background: #17121e99; }
 .balance-dialog__heading { display: flex; align-items: center; justify-content: space-between; padding-bottom: 18px; border-bottom: 1px solid #e9e4ed; }
-.balance-dialog__heading h2 { margin: 0; font-size: 24px; }
-.balance-dialog__heading button { width: 32px; height: 32px; border: 0; border-radius: 50%; color: #70647c; background: #f1edf4; font-size: 23px; line-height: 1; }
+.balance-dialog__heading h2 { margin: 0; font-size: 24px; line-height: 32px; }
+.balance-dialog__heading button { display: flex; align-items: center; justify-content: center; flex: none; width: 32px; height: 32px; margin: 0; padding: 0; border: 0; border-radius: 50%; color: #70647c; background: #f1edf4; }
+.balance-dialog__heading button svg { width: 12px; height: 12px; }
+.balance-dialog__heading button:hover { background: #e6e0eb; }
 .balance-dialog__content { display: flex; flex-direction: column; gap: 16px; padding-top: 22px; }
 .balance-dialog__content > p:first-child { margin: 0; color: #6d6379; font-size: 13px; line-height: 1.6; }
 .balance-dialog__content label { display: flex; justify-content: space-between; gap: 10px; color: var(--ink); font-size: 13px; font-weight: 700; }

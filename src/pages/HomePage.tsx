@@ -5,7 +5,6 @@ import { StarField } from '@/components/landing/StarField'
 import { setNotice } from '@/features/site/siteSlice'
 import { homeCopy } from '@/i18n/home'
 import { messages } from '@/i18n/messages'
-import { useHeroParallax } from '@/hooks/useHeroParallax'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 
 const artwork = {
@@ -27,14 +26,14 @@ export function HomePage() {
   const copy = homeCopy[locale]
   const common = messages[locale]
   const signedInEmail = useAppSelector((state) => state.account.email)
-  const heroRef = useHeroParallax<HTMLElement>()
   useScrollReveal('home')
 
   return <div className="landing">
     <main>
-      <section className="landing-hero" aria-labelledby="landing-hero-title" ref={heroRef}>
-        <div className="landing-hero__bg" aria-hidden="true" />
-        <div className="landing-hero__glow" aria-hidden="true" />
+      <section className="landing-hero" aria-labelledby="landing-hero-title">
+        <div className="landing-hero__bg" aria-hidden="true">
+          <video className="landing-hero__video" src="/videos/moonplay-hero.mp4" poster="/imgs/hero-space.webp" autoPlay muted loop playsInline preload="auto" />
+        </div>
         <StarField />
         <div className="landing-hero__scroll" aria-hidden="true" />
         <div className="landing-shell landing-hero__grid">

@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
+import { clearToken } from '@/api/auth'
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import { Header } from '@/components/Header'
 import { Overlay } from '@/components/Overlay'
 import { persistAccount, signOut } from '@/features/account/accountSlice'
+import { homeCopy } from '@/i18n/home'
 import { messages } from '@/i18n/messages'
 import { AccountPage } from '@/pages/AccountPage'
 import { HomePage } from '@/pages/HomePage'
@@ -23,7 +25,7 @@ export default function App() {
   useEffect(() => {
     persistLocale(locale)
     document.title = pathname === '/person' ? `Moonplay Planet｜${copy.auth.profileHeading}` : `Moonplay Planet｜${copy.announcement}`
-    document.querySelector('meta[name="description"]')?.setAttribute('content', `Moonplay Planet｜${copy.announcement}`)
+    document.querySelector('meta[name="description"]')?.setAttribute('content', homeCopy[locale].heroLead)
   }, [locale, copy, pathname])
   useEffect(() => { persistAccount(account) }, [account])
   useEffect(() => {
@@ -58,6 +60,7 @@ export default function App() {
   }
 
   function handleSignOut() {
+    clearToken()
     dispatch(signOut())
     navigateTo('/')
   }

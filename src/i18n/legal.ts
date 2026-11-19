@@ -10,8 +10,8 @@ export interface LegalSection {
 /** 聲明標題；其他語言目前僅翻譯標題，正文以繁體中文原文為準。 */
 export const legalTitle: Record<Locale, string> = {
   tw: '全球用戶法律、合規與風險聲明',
-  en: 'Global User Legal, Compliance and Risk Statement',
-  ko: '글로벌 사용자 법률·컴플라이언스 및 위험 고지',
+  en: 'Global User Legal, Compliance, and Risk Disclosure',
+  ko: '글로벌 이용자 법률·규정 준수 및 위험 고지',
 }
 
 export const legalNotice = '重要提示：請所有用戶於註冊、訪問或使用 Moonplay Planet 產品及服務，尤其是參與商品預約、購買、寄售及會員獎勵活動前，仔細閱讀並理解本聲明。'

@@ -1,11 +1,15 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react'
+import { bindReferrer, isSessionExpired } from '@/api/auth'
+import { ApiError } from '@/api/http'
+import { getUserData } from '@/api/user'
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
-import { bindInvite } from '@/features/account/accountSlice'
+import { InviteRecords } from '@/components/InviteRecords'
+import { setOwnInviteCode } from '@/features/account/accountSlice'
 import { parseInviteInput } from '@/features/account/invites'
 import { messages } from '@/i18n/messages'
 
 interface PersonPageProps { onSignOut: () => void }
-const invitePageSize = 10
+const closeIcon = <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg>
 
 export function PersonPage({ onSignOut }: PersonPageProps) {
   const dispatch = useAppDispatch()
@@ -20,13 +24,30 @@ export function PersonPage({ onSignOut }: PersonPageProps) {
   const [bindOpen, setBindOpen] = useState(false)
   const [transferOpen, setTransferOpen] = useState(false)
   const [transferAsset, setTransferAsset] = useState<'activation' | 'points'>('activation')
-  const [invitePage, setInvitePage] = useState(1)
+  const [bindError, setBindError] = useState('')
+  const [isBinding, setIsBinding] = useState(false)
   const balanceDialogRef = useRef<HTMLDialogElement>(null)
   const signOutDialogRef = useRef<HTMLDialogElement>(null)
   const bindDialogRef = useRef<HTMLDialogElement>(null)
   const transferDialogRef = useRef<HTMLDialogElement>(null)
   const assetHintsRef = useRef<HTMLDivElement>(null)
   const account = email ? accounts[email] : null
+  const onSignOutRef = useRef(onSignOut)
+  onSignOutRef.current = onSignOut
+
+  const refreshUserData = useCallback(async () => {
+    if (!email) return
+    try {
+      const { inviteCode } = await getUserData(email)
+      dispatch(setOwnInviteCode(inviteCode))
+    } catch (error) {
+      if (isSessionExpired(error)) onSignOutRef.current()
+    }
+  }, [dispatch, email])
+
+  useEffect(() => {
+    void refreshUserData()
+  }, [refreshUserData])
 
   useEffect(() => {
     function closeHintsOutside(event: PointerEvent) {
@@ -56,19 +77,35 @@ export function PersonPage({ onSignOut }: PersonPageProps) {
   if (!email || !account) return null
 
   const ownInviteCode = account.ownInviteCode
-  const invitees = ownInviteCode ? Object.entries(accounts).filter(([, item]) => item.invitedBy === ownInviteCode) : []
-  const invitePageCount = Math.ceil(invitees.length / invitePageSize)
-  const currentInvitePage = Math.min(invitePage, Math.max(invitePageCount, 1))
-  const visibleInvitees = invitees.slice((currentInvitePage - 1) * invitePageSize, currentInvitePage * invitePageSize)
-  const dateLocale = { tw: 'zh-TW', en: 'en-US', ko: 'ko-KR' }[locale]
   const inviteUrl = new URL('/', window.location.origin)
   if (ownInviteCode) inviteUrl.searchParams.set('invite_code', ownInviteCode)
 
-  function handleBind(event: FormEvent<HTMLFormElement>) {
+  async function handleBind(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    dispatch(bindInvite(parseInviteInput(inviteInput) ?? ''))
+    const inviteCode = parseInviteInput(inviteInput)
+    if (!inviteCode || !email) {
+      setBindError(copy.inviteInvalid)
+      return
+    }
+    setIsBinding(true)
+    setBindError('')
+    try {
+      await bindReferrer(email, inviteCode)
+      await refreshUserData()
+      setInviteInput('')
+      setBindOpen(false)
+    } catch (error) {
+      if (isSessionExpired(error)) return onSignOut()
+      setBindError(error instanceof ApiError && error.message ? error.message : copy.requestFailed)
+    } finally {
+      setIsBinding(false)
+    }
+  }
+
+  function openBind() {
     setInviteInput('')
-    setBindOpen(false)
+    setBindError('')
+    setBindOpen(true)
   }
 
   async function handleCopy(value: string, kind: 'code' | 'link') {
@@ -96,14 +133,14 @@ export function PersonPage({ onSignOut }: PersonPageProps) {
             <div><small>{copy.userType}</small><strong>{email}</strong></div>
             <button className="person-card__signout" type="button" onClick={() => setSignOutOpen(true)}>{copy.signOut}</button>
           </div>
-          <div className="person-card__balance"><div><span>{copy.balanceLabel}</span><strong>$0.00</strong></div><div className="person-card__balance-actions"><button type="button" onClick={() => setBalanceAction('deposit')}>{copy.deposit}</button><button type="button" onClick={() => setBalanceAction('withdraw')}>{copy.withdraw}</button></div></div>
+          <div className="person-card__balance" hidden><div><span>{copy.balanceLabel}</span><strong>$0.00</strong></div><div className="person-card__balance-actions"><button type="button" onClick={() => setBalanceAction('deposit')}>{copy.deposit}</button><button type="button" onClick={() => setBalanceAction('withdraw')}>{copy.withdraw}</button></div></div>
           <div className="person-card__invite">
             {ownInviteCode ? <div className="person-card__invite-grid">
               <div className="person-card__invite-item"><span>{copy.ownInviteLabel}</span><div><strong>{ownInviteCode}</strong><button type="button" aria-label={`${copy.copy} ${copy.ownInviteLabel}`} onClick={() => handleCopy(ownInviteCode, 'code')}>{copied === 'code' ? copy.copied : copy.copy}</button></div></div>
               <div className="person-card__invite-item"><span>{copy.inviteLinkLabel}</span><div><strong title={inviteUrl.toString()}>{inviteUrl.toString()}</strong><button type="button" aria-label={`${copy.copy} ${copy.inviteLinkLabel}`} onClick={() => handleCopy(inviteUrl.toString(), 'link')}>{copied === 'link' ? copy.copied : copy.copy}</button></div></div>
             </div> : <div className="person-card__invite-grid">
               <div className="person-card__invite-item"><span>{copy.ownInviteLabel}</span><div><strong>—</strong></div></div>
-              <div className="person-card__invite-item"><span>{copy.inviteLinkLabel}</span><div><strong>—</strong><button className="person-card__bind-trigger" type="button" onClick={() => { setInviteInput(''); setBindOpen(true) }}>{copy.bindTitle}</button></div></div>
+              <div className="person-card__invite-item"><span>{copy.inviteLinkLabel}</span><div><strong>—</strong><button className="person-card__bind-trigger" type="button" onClick={openBind}>{copy.bindTitle}</button></div></div>
             </div>}
             {copyError && <p className="person-card__error" role="alert">{copyError}</p>}
           </div>
@@ -114,27 +151,24 @@ export function PersonPage({ onSignOut }: PersonPageProps) {
           <div className="person-assets" ref={assetHintsRef}><div><div className="person-assets__top"><div className="person-assets__label"><span>{copy.activationCodeCount}</span><details className="person-assets__hint"><summary aria-label={`${copy.activationCodes}${copy.assetHelp}`}>?</summary><p>{copy.activationHelp}</p></details></div><button type="button" onClick={() => openTransfer('activation')}>{copy.sendAsset}</button></div><strong>0 <small>{copy.codeUnit}</small></strong></div><div><div className="person-assets__top"><div className="person-assets__label"><span>{copy.bookingPoints}</span><details className="person-assets__hint"><summary aria-label={`${copy.bookingPoints}${copy.assetHelp}`}>?</summary><p>{copy.pointsHelp}</p></details></div><button type="button" onClick={() => openTransfer('points')}>{copy.sendAsset}</button></div><strong>0</strong><small>{copy.pointsRate}</small></div></div>
           <div className="person-partner__purchase"><div><strong>{copy.partnerPackage}</strong><p>{copy.partnerPayment}</p><small>{copy.packagePending}</small></div><button type="button" disabled>{copy.buyPackage}</button></div>
         </section>
-        <section className="person-section person-section--invite-records" aria-labelledby="invite-records-title">
-          <div className="person-section__heading"><div><p className="eyebrow">{copy.inviteRecordsKicker}</p><h2 id="invite-records-title">{copy.inviteRecordsTitle}</h2></div><strong>{invitees.length} {copy.peopleUnit}</strong></div>
-          {invitees.length ? <><div className="person-records"><div className="person-records__head"><span>{copy.inviteeAddress}</span><span>{copy.registeredAt}</span><span>{copy.activationStatus}</span></div>{visibleInvitees.map(([address, invitee]) => <div className="person-records__row" key={address}><strong>{address}</strong><span>{invitee.registeredAt ? new Intl.DateTimeFormat(dateLocale, { year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(invitee.registeredAt)) : '—'}</span><span className={invitee.activated ? 'is-active' : ''}>{invitee.activated ? copy.activated : copy.notActivated}</span></div>)}</div>{invitePageCount > 1 && <nav className="person-records__pagination" aria-label={copy.inviteRecordsTitle}><button type="button" disabled={currentInvitePage === 1} onClick={() => setInvitePage(currentInvitePage - 1)}>{copy.previousPage}</button><span>{currentInvitePage} / {invitePageCount}</span><button type="button" disabled={currentInvitePage === invitePageCount} onClick={() => setInvitePage(currentInvitePage + 1)}>{copy.nextPage}</button></nav>}</> : <p className="person-section__empty">{copy.noInviteRecords}</p>}
-        </section>
+        <InviteRecords email={email} onSessionExpired={onSignOut} />
       </div>
       {signOutOpen && <dialog className="balance-dialog person-signout-dialog" ref={signOutDialogRef} aria-labelledby="signout-dialog-title" aria-describedby="signout-dialog-message" onClose={() => setSignOutOpen(false)} onCancel={() => setSignOutOpen(false)}>
-        <div className="balance-dialog__heading"><h2 id="signout-dialog-title">{copy.signOutTitle}</h2><button type="button" aria-label={copy.closeDialog} onClick={() => setSignOutOpen(false)}>×</button></div>
+        <div className="balance-dialog__heading"><h2 id="signout-dialog-title">{copy.signOutTitle}</h2><button type="button" aria-label={copy.closeDialog} onClick={() => setSignOutOpen(false)}>{closeIcon}</button></div>
         <p id="signout-dialog-message">{copy.signOutMessage}</p>
         <div className="balance-dialog__footer"><button type="button" onClick={() => setSignOutOpen(false)}>{copy.cancel}</button><button type="button" onClick={() => { signOutDialogRef.current?.close(); onSignOut() }}>{copy.signOut}</button></div>
       </dialog>}
       {bindOpen && <dialog className="balance-dialog person-bind-dialog" ref={bindDialogRef} aria-labelledby="bind-dialog-title" onClose={() => setBindOpen(false)} onCancel={() => setBindOpen(false)}>
-        <div className="balance-dialog__heading"><h2 id="bind-dialog-title">{copy.bindTitle}</h2><button type="button" aria-label={copy.closeDialog} onClick={() => setBindOpen(false)}>×</button></div>
-        <div className="person-card__bind"><p>{copy.bindLead}</p><form onSubmit={handleBind}><label htmlFor="person-invite">{copy.bindTitle}</label><input id="person-invite" value={inviteInput} maxLength={512} autoComplete="off" placeholder={copy.invitePlaceholder} onChange={(event) => setInviteInput(event.target.value)} /><div className="person-bind-dialog__actions"><button type="button" onClick={() => setBindOpen(false)}>{copy.cancel}</button><button type="submit">{copy.bind}</button></div></form></div>
+        <div className="balance-dialog__heading"><h2 id="bind-dialog-title">{copy.bindTitle}</h2><button type="button" aria-label={copy.closeDialog} onClick={() => setBindOpen(false)}>{closeIcon}</button></div>
+        <div className="person-card__bind"><p>{copy.bindLead}</p><form onSubmit={handleBind}><label htmlFor="person-invite">{copy.bindTitle}</label><input id="person-invite" value={inviteInput} maxLength={512} autoComplete="off" placeholder={copy.invitePlaceholder} onChange={(event) => setInviteInput(event.target.value)} />{bindError && <p className="person-card__error" role="alert">{bindError}</p>}<div className="person-bind-dialog__actions"><button type="button" onClick={() => setBindOpen(false)}>{copy.cancel}</button><button type="submit" disabled={isBinding}>{copy.bind}</button></div></form></div>
       </dialog>}
       {transferOpen && <dialog className="balance-dialog person-transfer-dialog" ref={transferDialogRef} aria-labelledby="transfer-dialog-title" onClose={() => setTransferOpen(false)} onCancel={() => setTransferOpen(false)}>
-        <div className="balance-dialog__heading"><h2 id="transfer-dialog-title">{transferAsset === 'activation' ? copy.activationTransferTitle : copy.pointsTransferTitle}</h2><button type="button" aria-label={copy.closeDialog} onClick={() => setTransferOpen(false)}>×</button></div>
+        <div className="balance-dialog__heading"><h2 id="transfer-dialog-title">{transferAsset === 'activation' ? copy.activationTransferTitle : copy.pointsTransferTitle}</h2><button type="button" aria-label={copy.closeDialog} onClick={() => setTransferOpen(false)}>{closeIcon}</button></div>
         <p className="person-transfer-dialog__lead">{copy.transferLead}</p>
         <form className="person-transfer-dialog__form" onSubmit={(event) => event.preventDefault()}><label htmlFor="transfer-email">{copy.recipientEmail}</label><input id="transfer-email" type="email" autoComplete="email" placeholder="name@example.com" /><label htmlFor="transfer-amount">{copy.transferQuantity}</label><input id="transfer-amount" type="number" min="1" step="1" placeholder="0" /><div className="balance-dialog__footer"><button type="button" onClick={() => setTransferOpen(false)}>{copy.cancel}</button><button type="submit" disabled>{copy.confirmTransfer}</button></div></form>
       </dialog>}
       {balanceAction && <dialog className="balance-dialog" ref={balanceDialogRef} aria-labelledby="balance-dialog-title" onClose={() => setBalanceAction(null)} onCancel={() => setBalanceAction(null)}>
-        <div className="balance-dialog__heading"><h2 id="balance-dialog-title">{balanceAction === 'deposit' ? copy.deposit : copy.withdraw}</h2><button type="button" aria-label={copy.closeDialog} onClick={() => setBalanceAction(null)}>×</button></div>
+        <div className="balance-dialog__heading"><h2 id="balance-dialog-title">{balanceAction === 'deposit' ? copy.deposit : copy.withdraw}</h2><button type="button" aria-label={copy.closeDialog} onClick={() => setBalanceAction(null)}>{closeIcon}</button></div>
         {balanceAction === 'deposit' ? <div className="balance-dialog__content">
           <p>{copy.depositLead}</p>
           <div className="balance-dialog__network"><span>{copy.depositNetwork}</span><strong>{copy.networkPending}</strong></div>

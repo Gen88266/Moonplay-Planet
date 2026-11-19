@@ -53,6 +53,9 @@ const accountSlice = createSlice({
         state.accounts[state.email].ownInviteCode = createInviteCode()
       }
     },
+    setOwnInviteCode(state, action: PayloadAction<string>) {
+      if (state.email && state.accounts[state.email]) state.accounts[state.email].ownInviteCode = action.payload || null
+    },
     signOut(state) { state.email = null },
   },
 })
@@ -61,5 +64,5 @@ export function persistAccount(state: AccountState) {
   try { localStorage.setItem(storageKey, JSON.stringify(state)) } catch { /* Storage may be unavailable. */ }
 }
 
-export const { signIn, bindInvite, signOut } = accountSlice.actions
+export const { signIn, bindInvite, setOwnInviteCode, signOut } = accountSlice.actions
 export default accountSlice.reducer

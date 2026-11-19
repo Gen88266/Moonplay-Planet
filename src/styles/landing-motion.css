@@ -1,7 +1,5 @@
 /* 首頁動效：Hero 入場 / 星空 / 滾動入場 / 卡片互動。減少動態偏好見檔尾。 */
 @keyframes landing-rise { from { opacity: 0; transform: translateY(28px) scale(.98); } }
-@keyframes landing-drift { from { transform: scale(1); } to { transform: scale(1.035); } }
-@keyframes landing-pulse { 0%, 100% { opacity: .3; } 50% { opacity: 1; } }
 @keyframes landing-twinkle { 0%, 100% { opacity: .15; transform: scale(.7); } 50% { opacity: 1; transform: scale(1.3); } }
 @keyframes landing-spark { 0%, 100% { opacity: .25; transform: scale(.45) rotate(0); } 50% { opacity: 1; transform: scale(1) rotate(90deg); } }
 @keyframes landing-meteor { 0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(-35deg); } 2% { opacity: 1; } 9%, 100% { opacity: 0; transform: translate3d(-420px, 294px, 0) rotate(-35deg); } }
@@ -12,10 +10,9 @@
 @keyframes landing-wheel { 0% { opacity: 0; transform: translateY(0); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(12px); } }
 
 /* Hero 圖層 */
-.landing-hero__bg { position: absolute; inset: -2%; z-index: 0; transform-origin: 70% 60%; translate: calc(var(--px, 0) * -12px) calc(var(--py, 0) * -8px); transition: translate .5s ease-out; animation: landing-drift 22s ease-in-out infinite alternate; }
-.landing-hero__glow { position: absolute; inset: 0; z-index: 1; pointer-events: none; mix-blend-mode: screen; background: radial-gradient(ellipse 34% 28% at 68% 66%, rgba(255, 213, 0, .3), transparent 70%), radial-gradient(ellipse 22% 30% at 72% 38%, rgba(169, 130, 236, .3), transparent 70%); animation: landing-pulse 5s ease-in-out infinite; }
+.landing-hero__bg { position: absolute; inset: 0; z-index: 0; }
 .landing-hero__grid { position: relative; z-index: 2; }
-.starfield { position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; translate: calc(var(--px, 0) * 8px) calc(var(--py, 0) * 6px); transition: translate .5s ease-out; }
+.starfield { position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; }
 .starfield i { position: absolute; display: block; }
 .starfield__dot { width: var(--s); height: var(--s); border-radius: 50%; background: #fff; box-shadow: 0 0 6px 1px rgba(255, 236, 160, .8); animation: landing-twinkle var(--d) ease-in-out var(--t) infinite; }
 .starfield__spark { width: var(--s); height: var(--s); background: #ffe36b; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); animation: landing-spark var(--d) ease-in-out var(--t) infinite; }
@@ -62,8 +59,7 @@ html.has-reveal .landing-heading:not(.is-visible)::before { transform: scaleX(0)
 }
 .landing .landing-card:active { transform: translateY(-2px) scale(.99); transition-duration: .2s; }
 
-@media (max-width: 620px) { .landing-hero__scroll, .landing-hero__glow { display: none; } }
+@media (max-width: 620px) { .landing-hero__scroll { display: none; } }
 @media (prefers-reduced-motion: reduce) {
   .landing *, .landing *::before, .landing *::after { animation: none !important; transition: none !important; }
-  .landing-hero__bg, .starfield { translate: none; }
 }

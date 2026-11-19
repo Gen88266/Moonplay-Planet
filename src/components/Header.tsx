@@ -1,23 +1,21 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type MouseEvent } from 'react'
 import { useAppSelector } from '@/app/hooks'
 import { messages } from '@/i18n/messages'
 import { Brand } from './Brand'
 import { LanguagePicker } from './LanguagePicker'
 
 export function Header({ loginPage = false }: { loginPage?: boolean }) {
-  const [menuOpen, setMenuOpen] = useState(false)
   const [languageOpen, setLanguageOpen] = useState(false)
   const [headerHidden, setHeaderHidden] = useState(false)
   const locale = useAppSelector((state) => state.site.locale)
   const signedInEmail = useAppSelector((state) => state.account.email)
   const copy = messages[locale]
-  const links = ['/#products', signedInEmail ? '/person' : '/#account', '/#ai', '/#about']
 
   useEffect(() => {
     let previousY = window.scrollY
     function handleScroll() {
       const currentY = window.scrollY
-      if (currentY < 96 || menuOpen || languageOpen) {
+      if (currentY < 96 || languageOpen) {
         setHeaderHidden(false)
         previousY = currentY
       } else if (Math.abs(currentY - previousY) > 8) {
@@ -27,14 +25,22 @@ export function Header({ loginPage = false }: { loginPage?: boolean }) {
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [menuOpen, languageOpen])
+  }, [languageOpen])
+
+  function onStoreClick(event: MouseEvent<HTMLAnchorElement>) {
+    const onHome = window.location.pathname === '/' && !window.location.hash.startsWith('#account') && !new URLSearchParams(window.location.search).has('invite_code')
+    if (!onHome) return
+    event.preventDefault()
+    window.history.replaceState(null, '', '/#top')
+    window.scrollTo(0, 0)
+  }
 
   return (
       <header className={`header${headerHidden ? ' header--hidden' : ''}${loginPage ? ' header--login' : ''}`} id="top">
         <div className="header__inner shell">
           <Brand />
-          <nav className={`header__nav${menuOpen ? ' is-open' : ''}`} aria-label="Main navigation">
-            {copy.nav.map((label, index) => <a href={links[index]} key={links[index]} onClick={() => setMenuOpen(false)}>{label}</a>)}
+          <nav className="header__nav" aria-label="Main navigation">
+            <a href="/#top" onClick={onStoreClick}>{copy.nav[0]}</a>
           </nav>
           <div className="header__actions">
             {signedInEmail ? <a className="header__account" href="/person" aria-label={`${copy.account}: ${signedInEmail}`} title={signedInEmail}>
@@ -42,7 +48,6 @@ export function Header({ loginPage = false }: { loginPage?: boolean }) {
               <span>{signedInEmail}</span>
             </a> : <a className="header__login" href="/#account">{copy.auth.login}</a>}
             <LanguagePicker onOpenChange={setLanguageOpen} />
-            <button className="icon-button menu-trigger" type="button" aria-label={menuOpen ? copy.close : copy.menu} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? '×' : '☰'}</button>
           </div>
         </div>
       </header>
