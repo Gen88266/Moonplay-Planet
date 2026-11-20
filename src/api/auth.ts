@@ -1,5 +1,6 @@
 import { ApiError, postJson } from '@/api/http'
 import type { Locale } from '@/utils/locale'
+import { clearUserInfo, readUserInfo, updateUserInfo } from '@/utils/userInfoStorage'
 
 interface RegistrationBody {
   data?: boolean | { is_register?: boolean }
@@ -26,8 +27,6 @@ export async function sendLoginCode(email: string, lang: Locale) {
   await postJson('/user/login/sendSes', { email, module: 'login', lang })
 }
 
-const tokenStorageKey = 'moonplay-token'
-
 function readToken(result: unknown) {
   if (!result || typeof result !== 'object') return ''
   const data = (result as { data?: unknown }).data
@@ -40,29 +39,29 @@ function readToken(result: unknown) {
 }
 
 export function authHeaders(email: string): Record<string, string> {
-  const token = localStorage.getItem(tokenStorageKey)?.trim()
+  const token = readUserInfo().token.trim()
   return token ? { Token: token, Wallet: email } : { Wallet: email }
 }
 
 export function clearToken() {
-  localStorage.removeItem(tokenStorageKey)
+  clearUserInfo()
 }
 
 export function isSessionExpired(error: unknown) {
   return error instanceof ApiError && error.code === 3
 }
 
-function storeToken(result: unknown) {
+function storeToken(email: string, result: unknown) {
   const token = readToken(result)
-  if (token) localStorage.setItem(tokenStorageKey, token)
+  if (token) updateUserInfo({ auth: true, email, token })
 }
 
 export async function registerAccount(email: string, code: string, inviteCode: string) {
-  storeToken(await postJson('/user/login/register', { email, code, invite_code: inviteCode }))
+  storeToken(email, await postJson('/user/login/register', { email, code, invite_code: inviteCode }))
 }
 
 export async function loginAccount(email: string, loginCode: string) {
-  storeToken(await postJson('/user/login/login', { email, login_code: loginCode }))
+  storeToken(email, await postJson('/user/login/login', { email, login_code: loginCode }))
 }
 
 export async function bindReferrer(email: string, inviteCode: string) {
